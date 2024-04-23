@@ -10,10 +10,15 @@ public class Review {
     @id @GeneratedValue
     private Long id;
     private Users user;
+    private double rating;
     private String comments;
 
     public Long getId() {
         return id;
+    }
+
+    public double getRating() {
+        return rating;
     }
 
     public Users getUser() {
@@ -26,6 +31,10 @@ public class Review {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public void setUser(Users user) {

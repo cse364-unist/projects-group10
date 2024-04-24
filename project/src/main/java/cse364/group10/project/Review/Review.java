@@ -1,17 +1,19 @@
 package cse364.group10.project.Review;
 
+import cse364.group10.project.Movie.Movie;
 import cse364.group10.project.Users.Users;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Review {
     @id @GeneratedValue
     private Long id;
+    @OneToOne
     private Users user;
     private double rating;
     private String comments;
+    @ManyToOne
+    private Movie movie;
 
     public Long getId() {
         return id;
@@ -29,6 +31,10 @@ public class Review {
         return comments;
     }
 
+    public Movie getMovie() {
+        return movie;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -43,5 +49,9 @@ public class Review {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

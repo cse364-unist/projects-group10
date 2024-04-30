@@ -2,14 +2,7 @@ package cse364.group10.project.Review;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/movies/{id}")
@@ -39,10 +32,17 @@ public class ReviewController {
                 .orElseThrow(() -> new ReviewNotFoundException(reviewId));
     }
 
+    @GetMapping("/reviews")
+    public List<Review> getReviewsForMovie(@RequestParam("movie") String movieName) {
+        return repository.findByMoviename(movieName);
+    }
+
     @PutMapping("/reviews/{reviewId}")
     Review replaceReview(@RequestBody Review newReview, @PathVariable Long reviewId) {
         return repository.findById(reviewId)
                 .map(review -> {
+                    review.setUsername(newReview.getUsername());
+                    review.setMoviename(newReview.getMoviename());
                     review.setComments(newReview.getComments());
                     review.setRating(newReview.getRating());
                     return repository.save(review);

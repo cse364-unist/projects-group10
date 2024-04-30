@@ -1,11 +1,14 @@
 package cse364.group10.project.Movie.KeywordExtract;
 
 import cse364.group10.project.Review.Review;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class KeyWordExtractor {
     public List<String> extractKeywordsFromReviews(List<Review> reviews) {
         List<String> keywords = new ArrayList<>();

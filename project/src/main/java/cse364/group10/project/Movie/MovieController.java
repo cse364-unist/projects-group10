@@ -4,23 +4,22 @@ import java.util.List;
 import cse364.group10.project.Review.Review;
 import cse364.group10.project.Movie.KeywordExtract.KeyWordExtractor;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import cse364.group10.project.Review.ReviewController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MovieController {
     private final MovieRepository repository;
 
     private final KeyWordExtractor extractor;
+    private final ReviewController reviewController;
 
-    MovieController(MovieRepository repository, KeyWordExtractor extractor) {
+    @Autowired
+    MovieController(MovieRepository repository, KeyWordExtractor extractor, ReviewController controller) {
         this.repository = repository;
         this.extractor = extractor;
+        this.reviewController = controller;
     }
 
     @GetMapping("/movies")
@@ -28,7 +27,7 @@ public class MovieController {
         return repository.findAll();
     }
 
-    @PostMapping("movies")
+    @PostMapping("/movies")
     Movie newMovie(@RequestBody Movie newMovie) {
         return repository.save(newMovie);
     }
@@ -39,23 +38,23 @@ public class MovieController {
                 .orElseThrow(() -> new MovieNotFoundException(id));
     }
 
-    /*@GetMapping("/movies?genre={genre}")
-    List<Movie> findByGenre(@PathVariable String genre) {
+    @GetMapping("/movies")
+    List<Movie> findByGenre(@RequestParam("genre") String genre) {
         return repository.findByGenre(genre);
-    }*/
+    }
 
     @GetMapping("/movies/{id}/reviews")
     List<Review> getReviewsForMovie(@PathVariable Long id) {
         Movie movie = repository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException(id));
-        return movie.getReviewList();
+        return reviewController.getReviewsForMovie(movie.getTitle());
     }
 
     @GetMapping("/movies/{id}/reviews/keywords")
     List<String> getKeywordsFromReviews(@PathVariable Long id) {
         Movie movie = repository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException(id));
-        return extractor.extractKeywordsFromReviews(movie.getReviewList());
+        return extractor.extractKeywordsFromReviews(this.getReviewsForMovie(id));
     }
 
     @PutMapping("/movies/{id}")

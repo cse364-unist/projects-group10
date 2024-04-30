@@ -14,8 +14,6 @@ public class Movie {
     private String discription;
     private double avgRating;
     private String tumbnail;
-    @OneToMany()
-    private List<Review> reviewList;
 
     public Movie(String title, String genre, String discription, double avgRating, String tumbnail) {
         this.title = title;
@@ -48,10 +46,6 @@ public class Movie {
         return tumbnail;
     }
 
-    public List<Review> getReviewList() {
-        return reviewList;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -76,7 +70,4 @@ public class Movie {
         this.tumbnail = tumbnail;
     }
 
-    public void setReviewList(List<Review> reviewList) {
-        this.reviewList = reviewList;
-    }
 }

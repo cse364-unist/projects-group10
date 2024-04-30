@@ -13,8 +13,8 @@ class LoadReviewDatabase {
     @Bean
     CommandLineRunner initDatabase(ReviewRepository repository) {
         return args -> {
-            log.info("Preloading " + repository.save(new Review(3.4, "This is so funny.")));
-            log.info("Preloading " + repository.save(new Review(2.1, "This is so funny.")));
+            log.info("Preloading " + repository.save(new Review("James", "The View", 3.4, "This is so funny.")));
+            log.info("Preloading " + repository.save(new Review("Peter", "UNIST", 2.1, "This is so funny.")));
         };
     }
 }

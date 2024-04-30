@@ -1,8 +1,10 @@
-cd milestone1
+git config --global user.name "UnkyungJo"
+git config --global user.email pos10022@unist.ac.kr
+
+git clone https://github.com/UnkyungJo/MovieProject.git
+cd MovieProject
+git checkout milestone2
 
 mvn package
 
-git clone https://github.com/cse364-unist/projects-group10.git
-git checkout milestone2
-
-java -jar ./target/cse364-project-1.0-SNAPSHOT-with-dependencies.jar
+java -jar target/project-0.0.1-SNAPSHOT.jar

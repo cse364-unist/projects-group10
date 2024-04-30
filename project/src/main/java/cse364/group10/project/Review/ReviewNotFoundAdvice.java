@@ -8,7 +8,7 @@ public class ReviewNotFoundAdvice {
     @ResponseBody
     @ExceptionHandler(ReviewNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String reviewNotFOundHandler(ReviewNotFoundException ex) {
+    String reviewNotFoundHandler(ReviewNotFoundException ex) {
         return ex.getMessage();
     }
 

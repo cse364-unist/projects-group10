@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/movies/{id}")
 public class ReviewController {
     private final ReviewRepository repository;
 
@@ -18,39 +20,41 @@ public class ReviewController {
         this.repository = repository;
     }
 
+    // Aggregate root
+    // tag::get-aggregate-root[]
     @GetMapping("/reviews")
     List<Review> all() {
         return  repository.findAll();
     }
+    // end::get-aggregate-root[]
 
     @PostMapping("/reviews")
     Review newReview(@RequestBody Review newReview) {
         return repository.save(newReview);
     }
 
-    @GetMapping("/reviews/{id}")
-    Review one(@PathVariable Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ReviewNotFoundException(id));
+    @GetMapping("/reviews/{reviewId}")
+    Review one(@PathVariable Long reviewId) {
+        return repository.findById(reviewId)
+                .orElseThrow(() -> new ReviewNotFoundException(reviewId));
     }
 
-    @PutMapping("/reviews/{id}")
-    Review replaceReview(@RequestBody Review newReview, @PathVariable Long id) {
-        return repository.findById(id)
+    @PutMapping("/reviews/{reviewId}")
+    Review replaceReview(@RequestBody Review newReview, @PathVariable Long reviewId) {
+        return repository.findById(reviewId)
                 .map(review -> {
                     review.setComments(newReview.getComments());
                     review.setRating(newReview.getRating());
-                    review.setUser(newReview.getUser());
                     return repository.save(review);
                 })
                 .orElseGet(() -> {
-                    newReview.setId(id);
+                    newReview.setId(reviewId);
                     return  repository.save(newReview);
                 });
     }
 
-    @DeleteMapping("/reviews/{id}")
-    void deleteReview(@PathVariable Long id) {
-        repository.deleteById(id);
+    @DeleteMapping("/reviews/{reviewId}")
+    void deleteReview(@PathVariable Long reviewId) {
+        repository.deleteById(reviewId);
     }
 }

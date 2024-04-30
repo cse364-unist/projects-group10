@@ -8,15 +8,22 @@ import jakarta.persistence.*;
 
 @Entity
 public class Movie {
-    private @id @GeneratedValue Long id;
+    private @Id @GeneratedValue Long id;
     private String title;
     private String genre;
     private String discription;
-    private float avgRating;
+    private double avgRating;
     private String tumbnail;
-    @OneToMany(mappedBy = "movie")
+    @OneToMany()
     private List<Review> reviewList;
 
+    public Movie(String title, String genre, String discription, double avgRating, String tumbnail) {
+        this.title = title;
+        this.genre = genre;
+        this.discription = discription;
+        this.avgRating = avgRating;
+        this.tumbnail = tumbnail;
+    }
     public Long getId() {
         return id;
     }
@@ -33,7 +40,7 @@ public class Movie {
         return discription;
     }
 
-    public float getAvgRating() {
+    public double getAvgRating() {
         return avgRating;
     }
 
@@ -57,7 +64,7 @@ public class Movie {
         this.genre = genre;
     }
 
-    public void setAvgRating(float avgRating) {
+    public void setAvgRating(double avgRating) {
         this.avgRating = avgRating;
     }
 

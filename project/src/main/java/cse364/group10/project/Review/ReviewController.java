@@ -1,16 +1,20 @@
 package cse364.group10.project.Review;
 
+import cse364.group10.project.Review.KeywordExtract.KeyWordExtractor;
 import java.util.List;
 
+import cse364.group10.project.Review.KeywordExtract.KeyWordExtractor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/movies/{id}")
 public class ReviewController {
     private final ReviewRepository repository;
+    private final KeyWordExtractor extractor;
 
-    ReviewController(ReviewRepository repository) {
+    ReviewController(ReviewRepository repository, KeyWordExtractor extractor) {
         this.repository = repository;
+        this.extractor = extractor;
     }
 
     // Aggregate root
@@ -19,6 +23,18 @@ public class ReviewController {
     List<Review> all() {
         return  repository.findAll();
     }
+    public List<Review> getReviewsForMovie(@RequestParam("movieName") String movieName) {
+        return repository.findByMoviename(movieName);
+    }
+    public List<Review> getReviewsWrittenByUser(@RequestParam("userName") String userName) {
+        return repository.findByUnsername(userName);
+    }
+
+    @GetMapping("/review/{movie}/keywords")
+    public List<String> extractKeywords(@PathVariable String movie) {
+        return extractor.extractKeywordsFromReviews(this.getReviewsForMovie(movie));
+    }
+
     // end::get-aggregate-root[]
 
     @PostMapping("/reviews")
@@ -30,11 +46,6 @@ public class ReviewController {
     Review one(@PathVariable Long reviewId) {
         return repository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException(reviewId));
-    }
-
-    @GetMapping("/reviews")
-    public List<Review> getReviewsForMovie(@RequestParam("movie") String movieName) {
-        return repository.findByMoviename(movieName);
     }
 
     @PutMapping("/reviews/{reviewId}")

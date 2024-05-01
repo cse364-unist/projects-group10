@@ -1,8 +1,8 @@
 package cse364.group10.project.Movie;
 
 import java.util.List;
-import cse364.group10.project.Review.Review;
-import cse364.group10.project.Movie.KeywordExtract.KeyWordExtractor;
+
+import cse364.group10.project.Review.KeywordExtract.KeyWordExtractor;
 
 import cse364.group10.project.Review.ReviewController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,20 +41,6 @@ public class MovieController {
     @GetMapping("/movies")
     List<Movie> findByGenre(@RequestParam("genre") String genre) {
         return repository.findByGenre(genre);
-    }
-
-    @GetMapping("/movies/{id}/reviews")
-    List<Review> getReviewsForMovie(@PathVariable Long id) {
-        Movie movie = repository.findById(id)
-                .orElseThrow(() -> new MovieNotFoundException(id));
-        return reviewController.getReviewsForMovie(movie.getTitle());
-    }
-
-    @GetMapping("/movies/{id}/reviews/keywords")
-    List<String> getKeywordsFromReviews(@PathVariable Long id) {
-        Movie movie = repository.findById(id)
-                .orElseThrow(() -> new MovieNotFoundException(id));
-        return extractor.extractKeywordsFromReviews(this.getReviewsForMovie(id));
     }
 
     @PutMapping("/movies/{id}")

@@ -1,0 +1,10 @@
+POST https://api.openai.com/v1/completions
+Content-Type: application/json
+Authorization: Bearer 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
+
+{
+  "model": "gpt-3.5-turbo-instruct",
+  "prompt": "1+1은 몇이야?",
+  "temperature": 1,
+  "max_tokens": 10
+}

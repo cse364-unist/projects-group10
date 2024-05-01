@@ -1,17 +1,16 @@
-package cse364.group10.project.Movie;
+package cse364.group10.project.Review.KeywordExtract;
 
 import cse364.group10.project.Review.Review;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import  java.util.List;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public interface MovieRepository extends  JpaRepository<Movie, Long> {
-    List<Movie> findByGenre(String genre);
-
-    static public List<String> extractKeywordsFromReviews(List<Review> reviews) {
+@Component
+public class KeyWordExtractor {
+    public List<String> extractKeywordsFromReviews(List<Review> reviews) {
         List<String> keywords = new ArrayList<>();
 
         for (Review review : reviews) {
@@ -22,7 +21,7 @@ public interface MovieRepository extends  JpaRepository<Movie, Long> {
         return keywords;
     }
 
-    static List<String> extractWords(String text) {
+    List<String> extractWords(String text) {
         List<String> words = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\b\\w+\\b");
         Matcher matcher = pattern.matcher(text);

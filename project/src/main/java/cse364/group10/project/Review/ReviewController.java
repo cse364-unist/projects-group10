@@ -46,13 +46,13 @@ public class ReviewController {
     }
 
     @GetMapping("/reviews/{reviewId}")
-    Review one(@PathVariable Long reviewId) {
+    Review one(@PathVariable String reviewId) {
         return repository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException(reviewId));
     }
 
     @PutMapping("/reviews/{reviewId}")
-    Review replaceReview(@RequestBody Review newReview, @PathVariable Long reviewId) {
+    Review replaceReview(@RequestBody Review newReview, @PathVariable String reviewId) {
         return repository.findById(reviewId)
                 .map(review -> {
                     review.setUser(newReview.getUser());
@@ -68,7 +68,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/reviews/{reviewId}")
-    void deleteReview(@PathVariable Long reviewId) {
+    void deleteReview(@PathVariable String reviewId) {
         repository.deleteById(reviewId);
     }
 }

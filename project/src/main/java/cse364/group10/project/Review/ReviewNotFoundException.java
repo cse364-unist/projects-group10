@@ -1,7 +1,7 @@
 package cse364.group10.project.Review;
 
 public class ReviewNotFoundException extends RuntimeException {
-    ReviewNotFoundException(Long id) {
+    ReviewNotFoundException(String id) {
         super("Could not find review " + id);
     }
 }

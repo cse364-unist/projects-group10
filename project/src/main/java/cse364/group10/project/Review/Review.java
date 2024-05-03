@@ -2,10 +2,11 @@ package cse364.group10.project.Review;
 
 import cse364.group10.project.User.User;
 import jakarta.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document(collection = "reviews")
 public class Review {
-    private @Id @GeneratedValue Long id;
+    private @Id String id;
     private String user;
     private String movie;
     private double rating;
@@ -20,7 +21,7 @@ public class Review {
         this.comments = comments;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -40,7 +41,7 @@ public class Review {
         return comments;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

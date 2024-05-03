@@ -27,13 +27,13 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    User one(@PathVariable Long id) {
+    User one(@PathVariable String id) {
         return repository.findById(id).
                 orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @PutMapping("/users/{id}")
-    User replaceUser(@RequestBody User newUser, @PathVariable Long id) {
+    User replaceUser(@RequestBody User newUser, @PathVariable String id) {
         return repository.findById(id)
                 .map(user -> {
                     user.setEmail(newUser.getEmail());
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    void deleteUser(@PathVariable Long id) {
+    void deleteUser(@PathVariable String id) {
         repository.deleteById(id);
     }
 }

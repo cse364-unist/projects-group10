@@ -61,15 +61,15 @@ Each user can rate each movie in detail for each genre.
 
 ### Get Rating Informations
 
-> $curl -X GET http://localhosdt:8080/ratings
+> $curl -X GET http://localhost:8080/ratings
 
  Get the all rating informations
  
-> $curl -X GET http://localhosdt:8080/ratings/{movie}/{genre}
+> $curl -X GET http://localhost:8080/ratings/{movie}/{genre}
 
  Get ratings for the {movie}'s {genre}
  
-> $curl -X GET http://localhosdt:8080/ratings/{movie}/{genre}/average
+> $curl -X GET http://localhost:8080/ratings/{movie}/{genre}/average
 
  Get average of ratings for the {movie}'s {genre}
  
@@ -84,3 +84,58 @@ Add the overall rating and ratings for each genre.
 Rating of "-1" represents an empty genre compartment.
 
 So, this command means "User, James, evaluate "The Movie(2000)" overall 3.6. And 1.2 for genre1(ex) Comedy), 4.7 for genre2, 3.8 for genre3."
+
+---
+
+## Extracting from Reviews
+
+"We will extract keywords of a movie from reviews/"
+
+### Get Review Information
+
+> $curl -X GET http://localhost:8080/reviews
+
+Get all reviews from a movie
+
+> $curl -X GET http://localhost:8080/reviews?movie={movie}
+
+Get keywords of a movie from reviews
+
+> $curl -X GET http://localhost:8080/keywords?movie={movie}
+
+ReviewController
+```
+@GetMapping("/keywords?movie={movie}")
+public List<String> extractKeywords(@PathVariable String movie) {
+    return extractor.extractKeywordsFromReviews(repository.findByMovie(movie));
+}
+```
+KeyWordExtractor
+```
+public List<String> extractKeywordsFromReviews(List<Review> reviews) {
+    List<String> keywords = new ArrayList<>();
+
+    for (Review review : reviews) {
+        List<String> words = extractWords((review.getComments()));
+        keywords.addAll(words);
+    }
+
+    return keywords;
+}
+
+List<String> extractWords(String text) {
+    List<String> words = new ArrayList<>();
+    Pattern pattern = Pattern.compile("\\b\\w+\\b");
+    Matcher matcher = pattern.matcher(text);
+
+    while (matcher.find()) {
+        words.add(matcher.group());
+    }
+
+    return words;
+}
+```
+### Add the review
+
+> $curl -X POST http://localhost:8080/reviews -H 'Content-type:application/json' -d '{"user":"James" "movie":"UNIST(2007)", "rating":"3.6", "comments":"This is so amazing and wonderful!!! But 
+The second half is boring."}'

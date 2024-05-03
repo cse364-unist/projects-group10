@@ -54,3 +54,33 @@ We receive keywords and their preferences from the client, then rate the movie p
 > Ex ) curl -X GET http://localhost:8080/recommends?Keywords=keyword1,keyword2,keyword3,keyword4,keyword5&Score=1,2,3,4,5
 >
 > Expected output : The movie priority based on preferred keywords is returned in the form of a List.
+
+## Ratings for Genres
+
+Each user can rate each movie in detail for each genre.
+
+### Get Rating Informations
+
+> $curl -X GET http://localhosdt:8080/ratings
+
+ Get the all rating informations
+ 
+> $curl -X GET http://localhosdt:8080/ratings/{movie}/{genre}
+
+ Get ratings for the {movie}'s {genre}
+ 
+> $curl -X GET http://localhosdt:8080/ratings/{movie}/{genre}/average
+
+ Get average of ratings for the {movie}'s {genre}
+ 
+---
+
+### Add the Rating
+
+> $curl -X POST http://localhost:8080/ratings -H 'Content-type:application/json' -d '{"userName":"James" "movieName":"The Movie(2000)", "ratings":"3.6", "rating1":"1.2", "rating2":"4.7", "rating3":"3.8", "rating4":"-1", "rating5":"-1"}'
+
+Add the overall rating and ratings for each genre.
+
+Rating of "-1" represents an empty genre compartment.
+
+So, this command means "User, James, evaluate "The Movie(2000)" overall 3.6. And 1.2 for genre1(ex) Comedy), 4.7 for genre2, 3.8 for genre3."

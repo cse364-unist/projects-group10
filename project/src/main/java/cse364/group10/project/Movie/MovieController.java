@@ -12,14 +12,8 @@ import org.springframework.web.bind.annotation.*;
 public class MovieController {
     private final MovieRepository repository;
 
-    private final KeyWordExtractor extractor;
-    private final ReviewController reviewController;
-
-    @Autowired
-    MovieController(MovieRepository repository, KeyWordExtractor extractor, ReviewController controller) {
+    MovieController(MovieRepository repository) {
         this.repository = repository;
-        this.extractor = extractor;
-        this.reviewController = controller;
     }
 
     @GetMapping("/movies")
@@ -58,6 +52,11 @@ public class MovieController {
                     newMovie.setId(id);
                     return repository.save(newMovie);
                 });
+    }
+
+    @GetMapping("/movies/{genre}")
+    List<Movie> getMoviesWithGenre(@PathVariable("genre") String genre) {
+        return repository.findByGenre(genre);
     }
 
     @DeleteMapping("/movies/{id}")

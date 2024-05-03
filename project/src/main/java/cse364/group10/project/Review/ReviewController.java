@@ -7,7 +7,6 @@ import cse364.group10.project.Review.KeywordExtract.KeyWordExtractor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/movies/{id}")
 public class ReviewController {
     private final ReviewRepository repository;
     private final KeyWordExtractor extractor;
@@ -23,16 +22,20 @@ public class ReviewController {
     List<Review> all() {
         return  repository.findAll();
     }
-    public List<Review> getReviewsForMovie(@RequestParam("movieName") String movieName) {
-        return repository.findByMoviename(movieName);
-    }
-    public List<Review> getReviewsWrittenByUser(@RequestParam("userName") String userName) {
-        return repository.findByUnsername(userName);
+
+    @GetMapping("/reviews/{movie}")
+    public List<Review> getReviewsForMovie(@PathVariable("movie") String movie) {
+        return repository.findByMovie(movie);
     }
 
-    @GetMapping("/review/{movie}/keywords")
-    public List<String> extractKeywords(@PathVariable String movie) {
-        return extractor.extractKeywordsFromReviews(this.getReviewsForMovie(movie));
+    @GetMapping("/reviews/{user}")
+    public List<Review> getReviewsWrittenByUser(@PathVariable("user") String user) {
+        return repository.findByUser(user);
+    }
+
+    @GetMapping("/reviews/{movie}/keywords")
+    public List<String> extractKeywords(@PathVariable("movie") String movie) {
+        return extractor.extractKeywordsFromReviews(repository.findByMovie(movie));
     }
 
     // end::get-aggregate-root[]
@@ -52,8 +55,8 @@ public class ReviewController {
     Review replaceReview(@RequestBody Review newReview, @PathVariable Long reviewId) {
         return repository.findById(reviewId)
                 .map(review -> {
-                    review.setUsername(newReview.getUsername());
-                    review.setMoviename(newReview.getMoviename());
+                    review.setUser(newReview.getUser());
+                    review.setMovie(newReview.getMovie());
                     review.setComments(newReview.getComments());
                     review.setRating(newReview.getRating());
                     return repository.save(review);

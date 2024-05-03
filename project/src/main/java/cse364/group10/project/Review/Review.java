@@ -6,16 +6,16 @@ import jakarta.persistence.*;
 @Entity
 public class Review {
     private @Id @GeneratedValue Long id;
-    private String username;
-    private String moviename;
+    private String user;
+    private String movie;
     private double rating;
     private String comments;
 
     Review() {}
 
-    Review(String username, String moviename, double rating, String comments) {
-        this.username = username;
-        this.moviename = moviename;
+    Review(String user, String movie, double rating, String comments) {
+        this.user = user;
+        this.movie = movie;
         this.rating = rating;
         this.comments = comments;
     }
@@ -24,12 +24,12 @@ public class Review {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser() {
+        return user;
     }
 
-    public String getMoviename() {
-        return moviename;
+    public String getMovie() {
+        return movie;
     }
 
     public double getRating() {
@@ -44,12 +44,12 @@ public class Review {
         this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public void setMoviename(String moviename) {
-        this.moviename = moviename;
+    public void setMovie(String movie) {
+        this.movie = movie;
     }
 
     public void setRating(double rating) {

@@ -1,28 +1,20 @@
 package cse364.group10.project.Movie;
 
-import java.util.Objects;
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import cse364.group10.project.Review.Review;
-import jakarta.persistence.*;
-
-@Entity
+@Document(collection = "movies")
 public class Movie {
-    private @Id @GeneratedValue Long id;
+
+    @Id
+    private String id;
     private String title;
     private String genre;
-    private String discription;
-    private double avgRating;
-    private String tumbnail;
+    private String description;
+    private float avgRating;
+    private String thumbnail;
 
-    public Movie(String title, String genre, String discription, double avgRating, String tumbnail) {
-        this.title = title;
-        this.genre = genre;
-        this.discription = discription;
-        this.avgRating = avgRating;
-        this.tumbnail = tumbnail;
-    }
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -34,19 +26,19 @@ public class Movie {
         return genre;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
-    public double getAvgRating() {
+    public float getAvgRating() {
         return avgRating;
     }
 
     public String getTumbnail() {
-        return tumbnail;
+        return thumbnail;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -58,16 +50,16 @@ public class Movie {
         this.genre = genre;
     }
 
-    public void setAvgRating(double avgRating) {
+    public void setAvgRating(float avgRating) {
         this.avgRating = avgRating;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setTumbnail(String tumbnail) {
-        this.tumbnail = tumbnail;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
 }

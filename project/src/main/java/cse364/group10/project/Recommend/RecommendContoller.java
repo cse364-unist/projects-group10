@@ -22,7 +22,7 @@ public class RecommendContoller {
     }
 
     @GetMapping("/recommends")
-    public List<Movie> getMethodName(@ModelAttribute KeywordScore KeywordScore) {
+    public List<Movie> getRecommendMovies(@ModelAttribute KeywordScore KeywordScore) {
         HashMap<String,Integer> Keyword_Prefer = new HashMap<String,Integer>();
 
         for(int i=0; i<KeywordScore.getScore().size(); i++){
